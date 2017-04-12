@@ -7,7 +7,7 @@
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to John Perri Cruz at johnperricruz@gmail.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this plugin, please send an e-mail to John Perri Cruz at johnperricruz@gmail.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
