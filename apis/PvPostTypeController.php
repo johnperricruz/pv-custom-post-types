@@ -29,13 +29,14 @@
 class PvPostTypeController{
 	
 	public function __construct(){
-		add_action('init',array(&$this, 'primeview_portfolio_post_type'));
+		add_action('init',array(&$this, 'pv_custom_post_type'));
+		add_action('template_redirect',array(&$this, 'pv_custom_post_type_template'));
 	}
 	/**
 	 * Register Custom Post Type 
 	 * SEARCH FOR "post-type" and "Post Type" and change the values
 	 */
-	public function primeview_portfolio_post_type() {
+	public function pv_custom_post_type() {
 
 		$labels = array(
 			'name'                  => _x( 'Post Type', 'Post Type General Name', 'text_domain' ),
@@ -83,9 +84,25 @@ class PvPostTypeController{
 			'publicly_queryable'    => true,
 			'menu_icon'				=> 'dashicons-awards',
 			'capability_type'       => 'page',
-			 'rewrite' => array( 'slug' => 'Post Type' )
+			 'rewrite' => array( 'slug' => 'post-type' )
 		);
 		register_post_type( 'post-type', $args );
 		register_taxonomy_for_object_type( 'category', 'post-type' );
+	}	
+	/**
+	 * Use template for custom post type
+	 */
+	function pv_custom_post_type_template(){
+	  global $wp;
+	  global $wp_query;
+	  if ( $wp->query_vars["post_type"] == "post-type"){
+		if (have_posts()){
+			  require_once (plugin_dir_path(dirname( __FILE__ ) ).'apis/templates/custom-post-type-template.php');
+			  die();
+		  }
+		  else{
+			  $wp_query->is_404 = true;
+		  }
+		}
 	}	
 }
