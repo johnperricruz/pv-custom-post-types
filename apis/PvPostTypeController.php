@@ -30,7 +30,7 @@ class PvPostTypeController{
 	
 	public function __construct(){
 		add_action('init',array(&$this, 'pv_custom_post_type'));
-		add_action('template_redirect',array(&$this, 'pv_custom_post_type_template'));
+		add_filter('single_template',array(&$this, 'pv_custom_post_type_template'));
 	}
 	/**
 	 * Register Custom Post Type 
@@ -92,17 +92,11 @@ class PvPostTypeController{
 	/**
 	 * Use template for custom post type
 	 */
-	function pv_custom_post_type_template(){
-	  global $wp;
-	  global $wp_query;
-	  if ( $wp->query_vars["post_type"] == "post-type"){
-		if (have_posts()){
-			  require_once (plugin_dir_path(dirname( __FILE__ ) ).'apis/templates/custom-post-type-template.php');
-			  die();
-		  }
-		  else{
-			  $wp_query->is_404 = true;
-		  }
+	function pv_custom_post_type_template($single_template){
+		global $post;
+		if ($post->post_type == 'nhu-stories') {
+			$single_template = plugin_dir_path( __FILE__ ).'/templates/cancer-survivor-template.php';
 		}
+		return $single_template;
 	}	
 }
